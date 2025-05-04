@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Bingo do Domingo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      margin-top: 30px;
+      font-size: 32px;
+      color: #333;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 0;
+    }
+    button {
+      width: 110px;
+      height: 70px;
+      font-size: 13px;
+      font-weight: bold;
+      margin: 3px;
+      background-color: white;
+      border: 2px solid #444;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.5s ease;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    }
+    button.active {
+      background-color: #4CAF50;
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    }
+    #mensagem-bingo {
+      font-size: 36px;
+      margin-top: 20px;
+      font-weight: bold;
+      height: 50px;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    #mensagem-bingo.bingo {
+      color: #4CAF50;
+      opacity: 1;
+      animation: pulsar 1.5s infinite;
+    }
+    @keyframes pulsar {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Bingo do Domingo</h1>
+
+<table id="bingo">
+  <tbody>
+    <tr>
+      <td><button onclick="marcar(this)">Moto GP</button></td>
+      <td><button onclick="marcar(this)">Paulo Médico e Amigos</button></td>
+      <td><button onclick="marcar(this)">Tozé</button></td>
+      <td><button onclick="marcar(this)">Zombie</button></td>
+      <td><button onclick="marcar(this)">Côro</button></td>
+    </tr>
+    <tr>
+      <td><button onclick="marcar(this)">Ma frend</button></td>
+      <td><button onclick="marcar(this)">Paulo Veiga</button></td>
+      <td><button onclick="marcar(this)">Mohameds dos cafés</button></td>
+      <td><button onclick="marcar(this)">MIT</button></td>
+      <td><button onclick="marcar(this)">Putos v2.0</button></td>
+    </tr>
+    <tr>
+      <td><button onclick="marcar(this)">Andrade (Gordo)</button></td>
+      <td><button onclick="marcar(this)">Suíço</button></td>
+      <td><button onclick="marcar(this)">Velha da Bengala</button></td>
+      <td><button onclick="marcar(this)">Ingleses do Almoço</button></td>
+      <td><button onclick="marcar(this)">Jorge e Luiz</button></td>
+    </tr>
+    <tr>
+      <td><button onclick="marcar(this)">Hugo</button></td>
+      <td><button onclick="marcar(this)">Irmão do Andrade</button></td>
+      <td><button onclick="marcar(this)">Franguinho</button></td>
+      <td><button onclick="marcar(this)">Cândida</button></td>
+      <td><button onclick="marcar(this)">Putos</button></td>
+    </tr>
+    <tr>
+      <td><button onclick="marcar(this)">Zé Manel</button></td>
+      <td><button onclick="marcar(this)">Arquiteto</button></td>
+      <td><button onclick="marcar(this)">Pinoni</button></td>
+      <td><button onclick="marcar(this)">Sofrência</button></td>
+      <td><button onclick="marcar(this)">Forcado</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<div id="mensagem-bingo"></div>
+
+<script>
+  function marcar(btn) {
+    btn.classList.toggle('active');
+    verificarBingo();
+  }
+
+  function verificarBingo() {
+    const botoes = document.querySelectorAll('#bingo button');
+    const matriz = Array.from({ length: 5 }, (_, i) =>
+      Array.from({ length: 5 }, (_, j) => botoes[i * 5 + j])
+    );
+
+    let bingo = false;
+
+    // Verifica linhas
+    for (let i = 0; i < 5; i++) {
+      if (matriz[i].every(btn => btn.classList.contains('active'))) {
+        bingo = true;
+      }
+    }
+
+    // Verifica colunas
+    for (let j = 0; j < 5; j++) {
+      if (matriz.every(row => row[j].classList.contains('active'))) {
+        bingo = true;
+      }
+    }
+
+    // Verifica diagonais
+    if (matriz.every((row, i) => row[i].classList.contains('active'))) {
+      bingo = true;
+    }
+    if (matriz.every((row, i) => row[4 - i].classList.contains('active'))) {
+      bingo = true;
+    }
+
+    const mensagem = document.getElementById('mensagem-bingo');
+    if (bingo) {
+      mensagem.textContent = 'BINGO!';
+      mensagem.classList.add('bingo');
+    } else {
+      mensagem.textContent = '';
+      mensagem.classList.remove('bingo');
+    }
+  }
+</script>
+
+</body>
+</html>
